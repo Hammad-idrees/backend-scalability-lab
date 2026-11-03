@@ -1,0 +1,7 @@
+node_modules/
+dist/
+logs/
+*.log
+.env
+nginx/certs/
+k6/results/

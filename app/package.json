@@ -1,0 +1,30 @@
+{
+  "name": "scaling-lab-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsc && node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "pm2:fork": "tsc && node scripts/pm2-start.mjs lab-fork",
+    "pm2:cluster": "tsc && node scripts/pm2-start.mjs lab-cluster",
+    "pm2:stop": "pm2 delete all"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.16.1",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.16.1",
+  "dependencies": {
+    "fastify": "^5.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  }
+}
