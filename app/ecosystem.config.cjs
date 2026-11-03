@@ -34,5 +34,22 @@ module.exports = {
       exec_mode: "cluster", // many copies sharing ONE port; PM2 hands requests out in turn
       instances: "max", // one copy per CPU core (8 on this PC)
     },
+
+    // Step 4: two "servers" for Nginx to load balance between.
+    // In real life these would be 2 machines. Here: 2 ports, 4 workers each (8 total, same as lab-cluster).
+    {
+      ...common,
+      name: "lab-a",
+      env: { ...common.env, PORT: 3001 },
+      exec_mode: "cluster",
+      instances: 4,
+    },
+    {
+      ...common,
+      name: "lab-b",
+      env: { ...common.env, PORT: 3002 },
+      exec_mode: "cluster",
+      instances: 4,
+    },
   ],
 };

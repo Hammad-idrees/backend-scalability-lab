@@ -7,7 +7,12 @@ import heavyRouter from "./features/heavy/heavy.router.js";
 import crashRouter from "./features/crash/crash.router.js";
 
 export const buildApp = () => {
-  const app = Fastify({ logger: false });
+  const app = Fastify({
+    logger: false,
+    // Behind Nginx, the TCP connection comes from Nginx, not the user.
+    // Nginx puts the user's real IP in X-Forwarded-For; trust it so req.ip is correct.
+    trustProxy: true,
+  });
 
   app.register(healthRouter, { prefix: "/health" });
   app.register(productsRouter, { prefix: "/products" });

@@ -1,0 +1,21 @@
+# Runs Nginx (the real Linux version) in Docker.
+#   docker compose -f nginx/compose.yaml up -d      start
+#   docker compose -f nginx/compose.yaml logs -f    watch access logs
+#   docker compose -f nginx/compose.yaml down       stop
+name: lab
+
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: lab-nginx
+    ports:
+      - "8080:8080" # HTTP  -> PM2 cluster (port 3000)
+      - "8081:8081" # HTTP  -> load balanced: lab-a (3001) + lab-b (3002)
+      - "8443:8443" # HTTPS -> PM2 cluster (port 3000)
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro # our config replaces the default one
+      - ./certs:/etc/nginx/certs:ro # SSL certificate (Part 4.5)
+    # Inside the container, "localhost" is the container itself.
+    # host.docker.internal = your Windows PC, where PM2 runs the app.
+    # Docker Desktop's DNS knows this name; nginx.conf looks it up (IPv4 only).
+    restart: unless-stopped

@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit",
     "pm2:fork": "tsc && node scripts/pm2-start.mjs lab-fork",
     "pm2:cluster": "tsc && node scripts/pm2-start.mjs lab-cluster",
+    "pm2:pair": "tsc && node scripts/pm2-start.mjs lab-a,lab-b",
+    "pm2:all": "tsc && node scripts/pm2-start.mjs lab-cluster,lab-a,lab-b",
     "pm2:stop": "pm2 delete all"
   },
   "devEngines": {
